@@ -35,7 +35,7 @@ func UpdateWorkout(c *gin.Context) {
 	workout := schemas.Workout{}
 
 	if err := handler.GetDB().First(&workout, id).Error; err != nil {
-		handler.SendError(c, http.StatusBadRequest, "workout not found")
+		handler.SendError(c, http.StatusBadRequest, fmt.Sprintf("workout with id: %s not found", id))
 		return
 	}
 
