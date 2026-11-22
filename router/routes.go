@@ -12,5 +12,6 @@ func InitRoutes(r *gin.Engine) {
 	{
 		v1.GET("/greeting", handler.Greeting)
 		InitWorkoutRoutes(v1)
+		InitExerciseRoutes(v1)
 	}
 }
