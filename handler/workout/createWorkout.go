@@ -2,6 +2,7 @@ package workout
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/galvao0/fitplan/handler"
 	"github.com/galvao0/fitplan/schemas"
@@ -16,13 +17,15 @@ func CreatingWorkout(c *gin.Context) {
 		return
 	}
 
-	if err := handler.GetDB().Where("name = ?", request.Name).First((&schemas.Workout{})).Error; err == nil {
+	nameFormat := strings.ToLower(request.Name)
+
+	if err := handler.GetDB().Where("name = ?", nameFormat).First((&schemas.Workout{})).Error; err == nil {
 		handler.SendError(c, http.StatusConflict, "workout already exists")
 		return
 	}
 
 	workout := schemas.Workout{
-		Name:  request.Name,
+		Name:  nameFormat,
 		Image: request.Image,
 	}
 
