@@ -17,15 +17,15 @@ func CreatingWorkout(c *gin.Context) {
 		return
 	}
 
-	nameFormat := strings.ToLower(request.Name)
+	normalize := strings.ToLower(request.Name)
 
-	if err := handler.GetDB().Where("name = ?", nameFormat).First((&schemas.Workout{})).Error; err == nil {
+	if err := handler.GetDB().Where("name = ?", normalize).First((&schemas.Workout{})).Error; err == nil {
 		handler.SendError(c, http.StatusConflict, "workout already exists")
 		return
 	}
 
 	workout := schemas.Workout{
-		Name:  nameFormat,
+		Name:  normalize,
 		Image: request.Image,
 	}
 
