@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func sendError(c *gin.Context, code int, msg string) {
+func SendError(c *gin.Context, code int, msg string) {
 	c.Header("Content-Type", "application/json")
 	c.JSON(code, gin.H{
 		"message":   msg,
@@ -15,7 +15,7 @@ func sendError(c *gin.Context, code int, msg string) {
 	})
 }
 
-func sendSuccess(c *gin.Context, op string, data interface{}) {
+func SendSuccess(c *gin.Context, op string, data interface{}) {
 	c.Header("Content-Type", "application/json")
 	c.JSON(http.StatusOK, gin.H{
 		"message": fmt.Sprintf("operation from handler: %s successfull", op),

@@ -14,3 +14,7 @@ func Init() {
 	logger = config.GetLogger("handler")
 	db = config.GetSQLite()
 }
+
+func GetDB() *gorm.DB {
+	return db
+}
