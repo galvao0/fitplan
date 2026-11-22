@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/galvao0/fitplan/handler"
+	workoutexercise "github.com/galvao0/fitplan/handler/workoutExercise"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,6 +12,7 @@ func InitRoutes(r *gin.Engine) {
 	v1 := r.Group("/api/v1")
 	{
 		v1.GET("/greeting", handler.Greeting)
+		v1.POST("/workout/:workoutID/exercise/:exerciseID", workoutexercise.AddExerciseWorkout)
 		InitWorkoutRoutes(v1)
 		InitExerciseRoutes(v1)
 	}
