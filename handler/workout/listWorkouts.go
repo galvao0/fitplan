@@ -11,7 +11,7 @@ import (
 func ListWorkouts(c *gin.Context) {
 	workouts := []schemas.Workout{}
 
-	if err := handler.GetDB().Find(&workouts).Error; err != nil {
+	if err := handler.GetDB().Preload("Exercises").Find(&workouts).Error; err != nil {
 		handler.SendError(c, http.StatusInternalServerError, "error listing workouts")
 		return
 	}

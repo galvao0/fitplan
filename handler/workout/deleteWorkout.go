@@ -18,7 +18,7 @@ func DeleteWorkout(c *gin.Context) {
 
 	workout := schemas.Workout{}
 
-	if err := handler.GetDB().First(&workout, id).Error; err != nil {
+	if err := handler.GetDB().Preload("Exercises").First(&workout, id).Error; err != nil {
 		handler.SendError(c, http.StatusNotFound, fmt.Sprintf("workout with id: %s not found", id))
 		return
 	}
