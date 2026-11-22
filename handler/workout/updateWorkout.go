@@ -25,17 +25,17 @@ func UpdateWorkout(c *gin.Context) {
 		return
 	}
 
-	normalize := strings.ToLower(request.Name)
+	workout := schemas.Workout{}
 
-	if err := handler.GetDB().Where("name = ?", normalize).First(&schemas.Workout{}).Error; err != nil {
-		handler.SendError(c, http.StatusConflict, fmt.Sprintf("workout with id: %s already exists", id))
+	if err := handler.GetDB().Preload("Exercises").First(&workout, id).Error; err != nil {
+		handler.SendError(c, http.StatusNotFound, fmt.Sprintf("workout with id: %s not found", id))
 		return
 	}
 
-	workout := schemas.Workout{}
+	normalize := strings.ToLower(request.Name)
 
-	if err := handler.GetDB().First(&workout, id).Error; err != nil {
-		handler.SendError(c, http.StatusBadRequest, fmt.Sprintf("workout with id: %s not found", id))
+	if err := handler.GetDB().Where("name = ?", normalize).First(&schemas.Workout{}).Error; err == nil {
+		handler.SendError(c, http.StatusConflict, fmt.Sprintf("workout with name: %s already exists", normalize))
 		return
 	}
 
