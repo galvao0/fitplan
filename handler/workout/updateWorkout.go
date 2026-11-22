@@ -11,7 +11,7 @@ import (
 func UpdateWorkout(c *gin.Context) {
 	id := c.Query("id")
 	if id == "" {
-		handler.SendError(c, http.StatusBadRequest, errParamIsRequired("id", "queryParam").Error())
+		handler.SendError(c, http.StatusBadRequest, handler.ErrParamIsRequired("id", "queryParam").Error())
 		return
 	}
 

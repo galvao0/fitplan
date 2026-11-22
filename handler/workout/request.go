@@ -1,10 +1,6 @@
 package workout
 
-import "fmt"
-
-func errParamIsRequired(name, typ string) error {
-	return fmt.Errorf("param: %s (type: %s) is required", name, typ)
-}
+import "github.com/galvao0/fitplan/handler"
 
 type WorkoutRequest struct {
 	Name  string `json:"name"`
@@ -16,7 +12,7 @@ type UpdateWorkoutRequest struct{ WorkoutRequest }
 
 func (r *WorkoutRequest) Validate() error {
 	if r.Name == "" {
-		return errParamIsRequired("name", "string")
+		return handler.ErrParamIsRequired("name", "string")
 	}
 	if r.Image == "" {
 		r.Image = "not"
