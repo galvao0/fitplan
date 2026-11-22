@@ -1,7 +1,9 @@
 package workout
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/galvao0/fitplan/handler"
 	"github.com/galvao0/fitplan/schemas"
@@ -23,6 +25,13 @@ func UpdateWorkout(c *gin.Context) {
 		return
 	}
 
+	normalize := strings.ToLower(request.Name)
+
+	if err := handler.GetDB().Where("name = ?", normalize).First(&schemas.Workout{}).Error; err != nil {
+		handler.SendError(c, http.StatusConflict, fmt.Sprintf("workout with id: %s already exists", id))
+		return
+	}
+
 	workout := schemas.Workout{}
 
 	if err := handler.GetDB().First(&workout, id).Error; err != nil {
@@ -31,7 +40,7 @@ func UpdateWorkout(c *gin.Context) {
 	}
 
 	if request.Name != "" {
-		workout.Name = request.Name
+		workout.Name = normalize
 	}
 	if request.Image != "" {
 		workout.Image = request.Image
