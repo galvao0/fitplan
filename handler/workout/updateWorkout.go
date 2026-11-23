@@ -34,7 +34,7 @@ func UpdateWorkout(c *gin.Context) {
 
 	normalize := strings.ToLower(request.Name)
 
-	if err := handler.GetDB().Where("name = ?", normalize).First(&schemas.Workout{}).Error; err == nil {
+	if err := handler.GetDB().Where("name = ? AND id <> ?", normalize, id).First(&schemas.Workout{}).Error; err == nil {
 		handler.SendError(c, http.StatusConflict, fmt.Sprintf("workout with name: %s already exists", normalize))
 		return
 	}
