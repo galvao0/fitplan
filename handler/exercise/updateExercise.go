@@ -26,7 +26,7 @@ func UpdateExercise(c *gin.Context) {
 
 	nameFormat := strings.ToLower(request.Name)
 
-	if err := handler.GetDB().Where("name = ?", nameFormat).First(&schemas.Exercise{}).Error; err == nil {
+	if err := handler.GetDB().Where("name = ? AND id <> ?", nameFormat, id).First(&schemas.Exercise{}).Error; err == nil {
 		handler.SendError(c, http.StatusConflict, fmt.Sprintf("exercise with name: %s already exists", nameFormat))
 		return
 	}
